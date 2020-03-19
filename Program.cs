@@ -2,14 +2,12 @@
 
 namespace Delegate
 {
-    public delegate bool Counter(int x, int y);
-
     public class Word
     {
         public int index { get; set; }
         public string word { get; set; }
 
-        public static string compare(int x, int y, Counter counter)
+        public static string compare(int x, int y, Func<int,int,bool> counter)
         {
             if (counter(x, y))
                 return String.Format(" {0} , {1} den büyüktür", x, y);
@@ -17,7 +15,6 @@ namespace Delegate
                 return String.Format(" {0} , {1} den küçük veya eşittir", x, y);
 
         }
-
     }
 
     class Program
@@ -25,7 +22,7 @@ namespace Delegate
         static void Main(string[] args)
         {
 
-            var compareString = Word.compare(3, 4, (x, y) => x == y);
+            var compareString = Word.compare(7, 6, (x, y) => x == y);
             System.Console.WriteLine(compareString);
 
 
