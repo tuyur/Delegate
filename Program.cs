@@ -18,36 +18,6 @@ namespace Delegate
 
     class Program
     {
-        public static Word[] CounterThanBigger(Word[] words, int x)
-        {
-            var w = new Word[words.Length];
-            int i = -1;
-            foreach (var word in words)
-            {
-                if (word.word.Length > x)
-                {
-                    i++;
-                    w[i] = word;
-                }
-            }
-            return w;
-        }
-
-        public static Word[] counterThanSmaller(Word[] words, int x)
-        {
-            var w = new Word[words.Length];
-            int i = -1;
-            foreach (var word in words)
-            {
-                if (word.word.Length < x)
-                {
-                    i++;
-                    w[i] = word;
-                }
-            }
-            return w;
-        }
-
         static void Main(string[] args)
         {
             Word[] words = new Word[]{
@@ -59,8 +29,20 @@ namespace Delegate
                 new Word { index = 4 , word = "car"}
             };
 
-            Counter c = new Counter(Program.counterThanSmaller);
-            var counterThanSmaller = Word.counter(words, 4, c);
+            var counterThanSmaller = Word.counter(words, 4, (Word[] words, int x) =>
+           {
+               var w = new Word[words.Length];
+               int i = -1;
+               foreach (var word in words)
+               {
+                   if (word.word.Length > x)
+                   {
+                       i++;
+                       w[i] = word;
+                   }
+               }
+               return w;
+           });
 
             System.Console.WriteLine("Smaller Than 4");
             foreach (Word s in counterThanSmaller)
@@ -69,14 +51,7 @@ namespace Delegate
                     Console.WriteLine(s.word);
             }
 
-            var counterThanBigger = Word.counter(words, 9, new Counter(Program.CounterThanBigger));
 
-            System.Console.WriteLine("Bigger Than 9");
-            foreach (Word s in counterThanBigger)
-            {
-                if (s != null)
-                    Console.WriteLine(s.word);
-            }
         }
     }
 }
